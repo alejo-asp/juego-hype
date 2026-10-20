@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYPE 2035: ¿Visión o Burbuja?</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #f59e0b;
+            --primary-btn: #6366f1;
+            --primary-hover: #4f46e5;
+            --text-color: #f8fafc;
+            --subtext-color: #94a3b8;
+            --success: #22c55e;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: var(--subtext-color);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .rules-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .rules-box h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--subtext-color);
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #0f172a;
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+
+        button {
+            background-color: var(--primary-btn);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Marcador de jugadores */
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            background-color: #0f172a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .player-card {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: #1e293b;
+            min-width: 120px;
+        }
+
+        .player-card.active {
+            border: 2px solid var(--accent-color);
+            background: #283548;
+        }
+
+        .player-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .player-score {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Pantalla de juego */
+        .question-card {
+            background-color: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            text-align: left;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: normal;
+            font-size: 0.95rem;
+        }
+
+        .option-btn:hover {
+            background-color: #334155;
+            border-color: var(--accent-color);
+        }
+
+        .feedback-box {
+            background-color: #1e293b;
+            border: 1px solid var(--success);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .feedback-title {
+            color: var(--success);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>HYPE 2035</h1>
+    <div class="subtitle">¿Visión o Burbuja? · El Futuro de la Comunicación</div>
+
+    <!-- PANTALLA 1: INICIO Y CONFIGURACIÓN -->
+    <div id="screen-setup">
+        <div class="rules-box">
+            <h3>📜 Reglas del Juego:</h3>
+            <ul>
+                <li>Juegan de 2 jugadores en adelante.</li>
+                <li>En cada turno, un jugador se enfrentará a un dilema sobre tecnologías emergentes, brechas generacionales o tendencias de comunicación.</li>
+                <li>Debes decidir la mejor estrategia para el futuro acumulando <strong>Puntos de Visión</strong>.</li>
+                <li>Al finalizar las rondas, ¡quien tenga más visión sobre el futuro ganará el juego!</li>
+            </ul>
+        </div>
+
+        <div class="input-group">
+            <label for="num-players">Número de Jugadores (mínimo 2):</label>
+            <input type="number" id="num-players" min="2" max="6" value="2" onchange="generatePlayerInputs()">
+            
+            <div id="player-inputs-container">
+                <!-- Se generan dinámicamente -->
+            </div>
+        </div>
+
+        <button onclick="startGame()">¡Comenzar el Juego!</button>
+    </div>
+
+    <!-- PANTALLA 2: JUEGO ACTIVO -->
+    <div id="screen-game" class="hidden">
+        <div class="scoreboard" id="scoreboard">
+            <!-- Marcadores se generan dinámicamente -->
+        </div>
+
+        <div class="question-card">
+            <span class="tag" id="card-category">Categoría</span>
+            <div class="question-text" id="card-text">Texto del dilema tecnológico...</div>
+            <div class="options-grid" id="options-container">
+                <!-- Opciones dinámicas -->
+            </div>
+            <div id="feedback" class="feedback-box hidden">
+                <div class="feedback-title" id="feedback-points">+0 Puntos de Visión</div>
+                <div id="feedback-text">Explicación del impacto PESTEL/Futuro...</div>
+                <button onclick="nextTurn()" style="margin-top: 15px;">Siguiente Turno ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: RESULTADOS -->
+    <div id="screen-results" class="hidden">
+        <h2>🏆 ¡Fin de la Partida!</h2>
+        <p class="subtitle">Análisis del Ganador del Futuro</p>
+        <div id="winner-announcement" style="font-size: 1.5rem; color: var(--accent-color); margin: 20px 0; font-weight: bold;"></div>
+        <div class="scoreboard" id="final-scoreboard"></div>
+        <button onclick="location.reload()">Jugar de Nuevo</button>
+    </div>
+</div>
+
+<script>
+    // BANCO DE PREGUNTAS / ESCENARIOS
+    const questions = [
+        {
+            category: "HYPE / IA GENERATIVA",
+            text: "Una nueva IA generativa promete sustituir el 100% de la comunicación escrita por avatares con síntesis de voz en video. ¿Cómo responde tu organización?",
+            options: [
+                { text: "Apostar todo al Hype y prohibir el texto escrito inmediatamente.", points: 10, feedback: "Arriesgado. Aunque es innovador, genera resistencia en generaciones acostumbradas al texto y excluye contextos de lectura rápida." },
+                { text: "Adoptar la IA como complemento pero mantener formatos accesibles e híbridos.", points: 30, feedback: "¡Excelente visión! Rompes la brecha intergeneracional combinando la innovación con la usabilidad." },
+                { text: "Rechazar la tecnología por considerarla una burbuja sin utilidad.", points: 0, feedback: "Demasiado conservador. Te quedas atrás frente a la aceleración tecnológica." }
+            ]
+        },
+        {
+            category: "BRECHA GENERACIONAL",
+            text: "Los empleados más jóvenes usan solo plataformas de mensajería instantánea con emojis y audios, mientras que los senior prefieren correos formales. ¿Qué haces?",
+            options: [
+                { text: "Obligar a todos a usar solo correo electrónico institucional.", points: 5, feedback: "Ignoras la evolución de los códigos digitales y desaceleras la comunicación joven." },
+                { text: "Implementar un 'Traductor Intergeneracional' y acordar un protocolo unificado.", points: 30, feedback: "¡Gran liderazgo! Mapeas y escuchas los códigos de cada grupo para construir puentes." },
+                { text: "Dejar que cada quien use lo que quiera sin reglas claras.", points: 10, feedback: "Provoca fragmentación y malentendidos en la cultura organizacional." }
+            ]
+        },
+        {
+            category: "WILD CARD / COMODÍN",
+            text: "¡Aparece una tecnología disruptiva de comunicación holográfica accesible! (Wild Card)",
+            options: [
+                { text: "Diseñar inmediatamente una prueba piloto para conectar equipos remotos.", points: 30, feedback: "¡Visión de futuro! Aprovechas las tecnologías potenciales para crear impacto." },
+                { text: "Esperar a que otras empresas lo prueben durante 5 años.", points: 10, feedback: "Pierdes la ventaja de innovación en la industria." },
+                { text: "Ignorarlo porque requiere reentrenar al personal.", points: 0, feedback: "Resistencia al cambio que compromete la supervivencia a largo plazo." }
+            ]
+        },
+        {
+            category: "ANÁLISIS PESTEL (Social/Tecnológico)",
+            text: "Se detecta un aumento en la sobrecarga digital y ansiedad por hiperconectividad en los equipos de trabajo. ¿Qué medida implementas?",
+            options: [
+                { text: "Establecer políticas de desconexión digital y comunicación asíncrona.", points: 30, feedback: "¡Excelente! Consideras el impacto humano de las megatendencias tecnológicas." },
+                { text: "Exigir respuesta inmediata las 24 horas usando herramientas inteligentes.", points: 0, feedback: "Aumenta la rotación y el colapso del equipo." },
+                { text: "Crear un canal de mensajes de apoyo dentro de la misma plataforma.", points: 15, feedback: "Un parche parcial, pero no soluciona el problema de fondo de la sobrecarga." }
+            ]
+        }
+    ];
+
+    let players = [];
+    let currentPlayerIndex = 0;
+    let round = 1;
+    const maxRoundsPerPlayer = 2; // Cada jugador responde 2 preguntas
+
+    function generatePlayerInputs() {
+        const count = parseInt(document.getElementById('num-players').value);
+        const container = document.getElementById('player-inputs-container');
+        container.innerHTML = '';
+
+        for (let i = 1; i <= count; i++) {
+            container.innerHTML += `
+                <input type="text" id="player-${i}" placeholder="Nombre del Jugador ${i}" value="Jugador ${i}">
+            `;
+        }
+    }
+
+    // Inicializar inputs
+    generatePlayerInputs();
+
+    function startGame() {
+        const count = parseInt(document.getElementById('num-players').value);
+        players = [];
+
+        for (let i = 1; i <= count; i++) {
+            const name = document.getElementById(`player-${i}`).value || `Jugador ${i}`;
+            players.push({ name: name, score: 0, turnsTaken: 0 });
+        }
+
+        document.getElementById('screen-setup').classList.add('hidden');
+        document.getElementById('screen-game').classList.remove('hidden');
+
+        updateScoreboard();
+        loadQuestion();
+    }
+
+    function updateScoreboard() {
+        const board = document.getElementById('scoreboard');
+        board.innerHTML = '';
+        players.forEach((p, idx) => {
+            const activeClass = idx === currentPlayerIndex ? 'active' : '';
+            board.innerHTML += `
+                <div class="player-card ${activeClass}">
+                    <div class="player-name">${p.name}</div>
+                    <div class="player-score">${p.score} pts</div>
+                </div>
+            `;
+        });
+    }
+
+    function loadQuestion() {
+        document.getElementById('feedback').classList.add('hidden');
+        const qIndex = (currentPlayerIndex + players[currentPlayerIndex].turnsTaken) % questions.length;
+        const q = questions[qIndex];
+
+        document.getElementById('card-category').innerText = q.category;
+        document.getElementById('card-text').innerText = `${players[currentPlayerIndex].name}, es tu turno: "${q.text}"`;
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        q.options.forEach((opt, idx) => {
+            optionsContainer.innerHTML += `
+                <button class="option-btn" onclick="selectOption(${opt.points}, '${opt.feedback.replace(/'/g, "\\'")}')">${opt.text}</button>
+            `;
+        });
+    }
+
+    function selectOption(points, feedback) {
+        players[currentPlayerIndex].score += points;
+        players[currentPlayerIndex].turnsTaken += 1;
+
+        // Deshabilitar botones de opción
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(btn => btn.disabled = true);
+
+        // Mostrar retroalimentación
+        const feedbackBox = document.getElementById('feedback');
+        document.getElementById('feedback-points').innerText = `+${points} Puntos de Visión`;
+        document.getElementById('feedback-text').innerText = feedback;
+        feedbackBox.classList.remove('hidden');
+
+        updateScoreboard();
+    }
+
+    function nextTurn() {
+        // Verificar si todos los jugadores terminaron sus rondas
+        const totalTurns = players.reduce((acc, p) => acc + p.turnsTaken, 0);
+        if (totalTurns >= players.length * maxRoundsPerPlayer) {
+            endGame();
+            return;
+        }
+
+        // Pasar al siguiente jugador
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        updateScoreboard();
+        loadQuestion();
+    }
+
+    function endGame() {
+        document.getElementById('screen-game').classList.add('hidden');
+        document.getElementById('screen-results').classList.remove('hidden');
+
+        // Ordenar por puntaje
+        players.sort((a, b) => b.score - a.score);
+
+        const winner = players[0];
+        document.getElementById('winner-announcement').innerText = `🏆 ¡Ganador: ${winner.name} con ${winner.score} Puntos de Visión!`;
+
+        const finalBoard = document.getElementById('final-scoreboard');
+        finalBoard.innerHTML = '';
+        players.forEach((p, idx) => {
+            finalBoard.innerHTML += `
+                <div class="player-card">
+                    <div class="player-name">#${idx + 1} ${p.name}</div>
+                    <div class="player-score">${p.score} pts</div>
+                </div>
+            `;
+        });
+    }
+</script>
+
+</body>
+</html>
+
